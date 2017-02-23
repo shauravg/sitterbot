@@ -1,0 +1,98 @@
+<p class="text-xs-center">
+  <%= current_user.get_selected_plan.name %> Plan
+</p>
+
+<!-- <p class="text&#45;xs&#45;center"> -->
+<!--   <strong>14 Day Free Trial</strong> -->
+<!-- </p> -->
+
+<p class="text-xs-center">
+  <%= number_to_currency(current_user.get_selected_plan.price) %> / <small>month</small>
+</p>
+
+<p class="text-success text-xs-center">
+  Full money back guarantee.
+</p>
+
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">
+  Stripe.setPublishableKey('<%= ENV["STRIPE_PUBLISHABLE_KEY"] %>');
+</script>
+
+<form action="/subscription" method="POST" id="payment-form">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="subscription[plan_id]" value="<%= current_user.get_selected_plan.id %>">
+  <span class="payment-errors"></span>
+
+  <div class="form-group">
+    <label for="card-number" class="control-label">Card Number</label>
+    <input id="card-number" type="text" size="20" data-stripe="number" class="form-control boxed" autofocus>
+  </div>
+
+  <div class="row form-group">
+    <div class="col-xs-6">
+      <label for="exp_month">Exp (MM / YY)</label>
+    </div>
+    <div class="col-xs-4 col-xs-offset-2">
+      <label for="cvc">CVC</label>
+    </div>
+    <div class="col-xs-3">
+      <input id="exp_month" type="text" size="2" data-stripe="exp_month" class="form-control boxed" placeholder="MM">
+    </div>
+    <div class="col-xs-3">
+      <input type="text" size="2" data-stripe="exp_year" class="form-control boxed" placeholder="YY">
+    </div>
+    <div class="col-xs-4 col-xs-offset-2">
+      <input id="cvc" type="text" size="4" data-stripe="cvc" class="form-control boxed" placeholder="CVC">
+    </div>
+  </div>
+
+  <!-- <p class="text&#45;muted"> -->
+  <!--   <small> -->
+  <!--     We won't chage your card until the end of the 14 day trial, cancel any time. -->
+  <!--   </small> -->
+  <!-- </p> -->
+
+  <input type="submit" class="submit btn btn-block btn-primary" value="Get Started!">
+  <div class="form-group">
+    <!-- <p class="text&#45;muted text&#45;xs&#45;center">Already have an account? <a href="/session/new">Log In</a></p> -->
+    <p class="text-muted text-xs-center"><a href="/logout">Nevermind...</a></p>
+  </div>
+</form>
+
+<% content_for :javascripts do %>
+<script type="text/javascript">
+  function stripeResponseHandler(status, response) {
+    // Grab the form:
+    var $form = $('#payment-form');
+
+    if (response.error) { // Problem!
+      // Show the errors on the form:
+      $form.find('.payment-errors').text(response.error.message);
+      $form.find('.submit').prop('disabled', false); // Re-enable submission
+    } else { // Token was created!
+      // Get the token ID:
+      var token = response.id,
+        lastFour = response.card.last4,
+        cardType = response.card.brand;
+      // Insert the token ID into the form so it gets submitted to the server:
+      $form.append($('<input type="hidden" name="subscription[credit_card_token]">').val(token));
+      $form.append($('<input type="hidden" name="subscription[last_four]">').val(lastFour));
+      $form.append($('<input type="hidden" name="subscription[card_type]">').val(cardType));
+      // Submit the form:
+      $form.get(0).submit();
+    }
+  };
+  $(function() {
+    var $form = $('#payment-form');
+    $form.submit(function(event) {
+      // Disable the submit button to prevent repeated clicks:
+      $form.find('.submit').prop('disabled', true);
+      // Request a token from Stripe:
+      Stripe.card.createToken($form, stripeResponseHandler);
+      // Prevent the form from being submitted:
+      return false;
+    });
+  });
+</script>
+<% end %>

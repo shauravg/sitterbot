@@ -1,0 +1,52 @@
+<article class="content dashboard-page">
+  <div class="title-block">
+    <h3 class="title">
+      <%= @event.name %>
+      <p class="title-description">
+        <a href="<%= edit_event_path(@event) %>" class="btn btn-sm btn-primary-outline">
+          Edit
+        </a>
+      </p>
+      <span class="sparkline bar" data-type="bar"></span>
+    </h3>
+  </div>
+
+  <section class="section">
+    <div class="row sameheight-container">
+      <div class="col col-md-12 stats-col">
+        <div class="card sameheight-item stats" data-exclude="xs" style="height: 322px;">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Sitter</th>
+                <th>Emailed</th>
+                <th>Texted</th>
+                <th>Hourly Rate</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @event.event_requests.each do |r| %>
+                <tr>
+                  <td><%= link_to r.sitter.name, r.sitter %></td>
+                  <td>
+                    <% if r.emailed %>
+                      <i class="fa fa-check text-success"></i>
+                    <% end %>
+                  </td>
+                  <td>
+                    <% if r.texted %>
+                      <i class="fa fa-check text-success"></i>
+                    <% end %>
+                  </td>
+                  <td><%= number_to_currency(r.sitter.hourly_rate) %></td>
+                  <td><%= r.state %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</article>

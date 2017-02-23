@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1><%= @user.email %> sent you an email via SitterBot!</h1>
+    <p>
+      They want you to know that <%= @sitter.name %> is an awesome baby sitter..<br>
+    </p>
+    <p>
+      If you already use SitterBot, click <a href="<%= @addurl %>">here</a> to add them to your list. If you do not use SitterBot, sign up at www.sitterbot.io
+    </p>
+    <p>Thanks for joining and have a great day!</p>
+  </body>
+</html>

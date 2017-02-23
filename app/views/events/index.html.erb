@@ -1,0 +1,61 @@
+<article class="content items-list-page">
+  <div class="title-search-block">
+    <div class="title-block">
+      <div class="row">
+        <div class="col-md-6">
+          <h3 class="title">
+            Events
+            <a href="/events/new" class="btn btn-primary btn-sm rounded-s">
+              Add New
+            </a>
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+        <table class="table ">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>From</th>
+              <th>To</th>
+              <th>On</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @events.each do |event| %>
+              <tr>
+                <td><%= link_to event.name, event %></td>
+                <td><%= event.starts_at.strftime("%l:%M %p") %></td>
+                <td><%= event.ends_at.strftime("%l:%M %p") %></td>
+                <td><%= event.starts_at.strftime("%a %b %d") %></td>
+                <td>
+                  <% if !event.started %>
+                    <form action="<%= fill_event_path(event) %>" method="post">
+                      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                      <input type="submit" class="btn btn-primary" value="Find Sitter!">
+                    </form>
+                  <% elsif event.accepted? %>
+                    <span class="text-success">Accepted by <%= event.sitter.try(:name) %>!</span>
+                  <% else %>
+                    Searching...
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to "edit", edit_event_path(event), class: "btn btn-sm btn-primary-outline" %>
+                </td>
+                <td>
+                  <%= button_to "delete", event_path(event), method: :delete, class: "btn btn-sm btn-danger-outline" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</article>

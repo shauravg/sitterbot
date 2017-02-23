@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SitterBot</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700' rel='stylesheet' type='text/css'>
+
+    <%= favicon_link_tag %>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <div class="main-wrapper">
+      <div class="app" id="app">
+        <%= render partial: 'layouts/header' %>
+        <%= render partial: 'layouts/sidebar' %>
+        <%= yield %>
+        <%= render partial: 'layouts/footer' %>
+      </div>
+    </div>
+    <div class="ref" id="ref">
+      <div class="color-primary"></div>
+      <div class="chart">
+        <div class="color-primary"></div>
+        <div class="color-secondary"></div>
+      </div>
+    </div>
+    <%= javascript_include_tag 'application' %>
+    <%= yield :javascripts %>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-81707025-1', 'auto');
+      ga('send', 'pageview');
+      <% if logged_in? %>
+        ga('set', 'userId', <%= current_user.id %>);
+      <% end %>
+    </script>
+  </body>
+</html>

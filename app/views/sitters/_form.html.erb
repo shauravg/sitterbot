@@ -1,0 +1,76 @@
+<% action = (sitter.persisted? ? sitter_path(sitter) : sitters_path) %>
+<% if flash[:errors] %>
+  <% flash[:errors].each do |error| %>
+    <%= error %>
+  <% end %>
+<% end %>
+<form action="<%= action %>" method="POST">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <% if sitter.persisted? %>
+    <input type="hidden" name="_method" value="PATCH">
+  <% end %>
+  <div class="card card-block">
+    <div class="form-group row">
+      <label class="col-sm-2 form-control-label text-xs-right">Name:</label>
+      <div class="col-sm-10">
+        <input type="text" name="sitter[name]" class="form-control boxed" placeholder="Name" required value="<%= sitter.name %>">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-2 form-control-label text-xs-right">Cell:</label>
+      <div class="col-sm-10">
+        <input type="text" name="sitter[phone]" class="form-control boxed" placeholder="775-999-9999" value="<%= sitter.phone %>">
+        <label class="text-muted">
+          <small>Millenials love their texts ;) </small>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-2 form-control-label text-xs-right">Email:</label>
+      <div class="col-sm-10">
+        <input type="email" name="sitter[email]" class="form-control boxed" placeholder="first.last@gmail.com" value="<%= sitter.email %>">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-2 form-control-label text-xs-right">Hourly Rate</label>
+      <div class="col-sm-10">
+        <div class="input-group">
+          <label class="input-group-addon">$</label>
+          <input type="number" step=".01" min="0" name="sitter[hourly_rate]" class="form-control boxed" placeholder="15.00" value="<%= sitter.hourly_rate %>">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-2 form-control-label text-xs-right">Can Drive?</label>
+      <div class="col-sm-10">
+        <input type="hidden" name="sitter[can_drive]" value="false" />
+        <input type="checkbox" name="sitter[can_drive]" value="<%= sitter.can_drive %>" />
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-2 form-control-label text-xs-right">Contact Order</label>
+      <div class="col-sm-10">
+        <input type="number" class="form-control" min="0" name="sitter[ord]" value="<%= sitter.ord %>" />
+        <label class="text-muted">
+          <small>Sitters with lower contact order will be contacted first</small>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-sm-10 col-sm-offset-2">
+        <% if sitter.persisted? %>
+          <button type="submit" class="btn btn-primary">Update</button>
+        <% else %>
+          <button type="submit" class="btn btn-primary">Add</button>
+          <button type="submit" class="btn btn-primary" name="create_and_add">Add and Create Another</button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</form>

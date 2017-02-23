@@ -1,0 +1,76 @@
+<article class="content dashboard-page">
+  <section class="section">
+    <div class="row sameheight-container">
+      <div class="col col-md-8 stats-col">
+        <div class="card-block">
+          <div class="title-block">
+            <h3>
+              Upcoming Events
+            </h3>
+          </div>
+          <div class="row row-sm stats-container">
+            <div class="col-xs-12 col-sm-12 stat-col">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Sitter</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>On</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @events.each do |event| %>
+                    <tr>
+                      <td><%= link_to event.name, event %></td>
+                      <td>
+                        <% if event.sitter %>
+                          <%= link_to event.sitter.name, event.sitter %>
+                        <% end %>
+                      </td>
+                      <td> <%= event.starts_at.strftime("%l:%M %p") %> </td>
+                      <td> <%= event.ends_at.strftime("%l:%M %p") %> </td>
+                      <td> <%= event.starts_at.strftime("%a %b %d") %> </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col col-md-4 history-col">
+        <div class="card-block">
+          <div class="title-block">
+            <h3>
+              Sitters
+            </h3>
+          </div>
+          <div class="row row-sm stats-container">
+            <div class="col-xs-12 col-sm-12 stat-col">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @sitters.each do |sitter| %>
+                    <tr>
+                      <td><%= link_to sitter.name, sitter %></td>
+                      <td class="text-center"><%= sitter.phone %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</article>

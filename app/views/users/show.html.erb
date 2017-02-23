@@ -1,0 +1,68 @@
+<article class="content dashboard-page">
+  <div class="title-block">
+    <h3 class="title">
+      <%= current_user.email %>
+      <p class="title-description">
+        Settings
+      </p>
+      <span class="sparkline bar" data-type="bar"></span>
+    </h3>
+  </div>
+
+  <section class="section">
+    <div class="row sameheight-container">
+      <% if flash[:errors] %>
+        <div class="alert alert-danger">
+          <% flash[:errors].each do |error| %>
+            <%= error %>
+          <% end %>
+        </div>
+      <% end %>
+      <div class="col-md-6">
+        <!-- <div class="card card&#45;block"> -->
+        <!--   <p> -->
+        <!--   </p> -->
+        <!-- </div> -->
+        <!--  -->
+        <div class="card card-block">
+          <h3>Account</h3>
+          <form action="/user" method="post">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="_method" value="PUT" />
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="user[email]" class="form-control" value="<%= current_user.email %>">
+            </div>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="user[name]" class="form-control" value="<%= current_user.name %>">
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="text" id="phone" name="user[phone]" class="form-control" value="<%= current_user.phone %>">
+            </div>
+            <div class="form-group">
+              <label for="time_zone">Time Zone</label>
+              <select id="time_zone" name="user[time_zone]" class="form-control">
+                <% ActiveSupport::TimeZone.us_zones.map(&:name).each do |time_zone| %>
+                  <option <%= 'selected' if current_user.time_zone == time_zone %>><%= time_zone %></option>
+                <% end %>
+              </select>
+            </div>
+            <button class="btn btn-success-outline">Update</button>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-block">
+          <p>
+            <h4>Integrations</h4>
+            <a href="/auth/facebook" class="btn btn-primary">
+              Connect to Facebook
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</article>

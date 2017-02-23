@@ -1,0 +1,59 @@
+<div class="pricing-tables attached">
+  <div class="row">
+    <div class="col-md-offset-2 col-sm-4 col-md-4">
+      <div class="plan first">
+        <div class="head">
+          <h2>Dinner and a Movie</h2>
+        </div>
+        <ul class="item-list">
+          <li><strong>Unlimited</strong> Babysitters</li>
+          <li> TextBot </li>
+          <li> EmailBot </li>
+          <li> Google Calendar Integration </li>
+          <li> </li>
+          <li> </li>
+        </ul>
+        <div class="price">
+          <h3><span class="symbol">$</span>5</h3>
+          <h4>per month</h4>
+        </div>
+        <% if logged_in? %>
+          <a href="/subscription/new?plan=monthly_plan" type="button" class="btn btn-outline">Select</a>
+        <% else %>
+          <a href="/user/new?plan=monthly_plan" type="button" class="btn btn-outline">Sign Up</a>
+        <% end %>
+        <p>
+          <small>14 day free trial</small>
+        </p>
+      </div>
+    </div>
+  <div class="col-sm-4 col-md-4">
+      <div class="plan first">
+        <div class="head">
+          <h2>Adventure</h2>
+        </div>
+        <ul class="item-list">
+          <li><strong>Unlimited</strong> Babysitters</li>
+          <li> TextBot </li>
+          <li> EmailBot </li>
+          <li> Google Calendar Integration </li>
+          <li> </li>
+          <li> </li>
+        </ul>
+        <div class="price">
+          <h3><span class="symbol">$</span>50</h3>
+          <h4>per year</h4>
+        </div>
+        <% if logged_in? %>
+          <a href="/subscription/new?plan=annual_plan" type="button" class="btn btn-outline">Select</a>
+        <% else %>
+          <a href="/user/new?plan=annual_plan" type="button" class="btn btn-outline">Sign Up</a>
+        <% end %>
+        <p>
+          <small>14 day free trial</small>
+        </p>
+      </div>
+    </div>
+  </div>
+  </div>
+

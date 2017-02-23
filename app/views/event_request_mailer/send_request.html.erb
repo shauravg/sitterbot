@@ -1,0 +1,14 @@
+Hey <%= @sitter.name %>,
+
+Are you available to watch
+
+<%= @parent.kids.pluck(:nickname).join(" and ") %>
+
+From <%= @event.starts_at %>
+To <%= @event.ends_at %>?
+
+<% if @event.flat_rate %>
+  Value: <%= number_to_currency(@event.flat_rate) %>
+<% else %>
+  Value: <%= number_to_currency(@event_request.value) %>
+<% end %>

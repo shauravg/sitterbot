@@ -1,0 +1,44 @@
+<article class="content items-list-page">
+  <div class="title-search-block">
+    <div class="title-block">
+      <div class="row">
+        <div class="col-md-6">
+          <h3 class="title">
+            Kids
+            <a href="/kids/new" class="btn btn-primary btn-sm rounded-s">
+              Add New
+            </a>
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+        <table class="table ">
+          <thead>
+            <tr>
+              <th>Nickname</th>
+              <th>Age</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @kids.each do |kid| %>
+              <tr>
+                <td><%= link_to kid.nickname, kid %></td>
+                <td><%= kid.age %></td>
+                <td>
+                  <%= link_to "edit", edit_kid_path(kid), class: "btn btn-sm btn-primary-outline" %>
+                </td>
+                <td>
+                  <%= button_to "delete", kid_path(kid), method: :delete, class: "btn btn-sm btn-danger-outline" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</article>
